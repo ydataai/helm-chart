@@ -1,0 +1,10 @@
+apiVersion: v2
+name: chart
+description: A Helm chart for Kubernetes
+version: 0.1.0
+
+type: application
+
+# Version of the application deploying
+# Used as the tag of the image that we are trying to fetch
+appVersion: 0.0.1
