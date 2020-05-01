@@ -31,3 +31,11 @@ Check the `values.yaml` for more that you can override. For example, you want to
 autoscaling:
   enabled: false
 ```
+
+## How to use it 🔨
+
+It's really simple, you just have to run helm in the root of your project and make sure you pass the required values, either using command line arguments or the file with overrides
+
+Example using the yaml file
+
+`helm upgrade <name of the project> chart --install --values chart.yaml`
