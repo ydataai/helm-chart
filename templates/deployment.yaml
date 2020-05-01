@@ -31,22 +31,24 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.image.env }}
           env:
-            {{- toYaml .Values.image.env | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: {{ .Values.healthcheck.path }}
+              path: {{ .Values.healthcheck.path | default "healthz" }}
               port: {{ .Values.healthcheck.port | default "http" }}
             {{- with .Values.healthcheck.probes }}
               {{- toYaml . | nindent 12 }}
             {{- end }}
           readinessProbe:
             httpGet:
-              path: {{ .Values.healthcheck.path }}
+              path: {{ .Values.healthcheck.path | default "healthz" }}
               port: {{ .Values.healthcheck.port | default "http" }}
             {{- with .Values.healthcheck.probes }}
               {{- toYaml . | nindent 12 }}
