@@ -15,10 +15,23 @@ image:
   # repository: nginx
   pullPolicy: IfNotPresent
   # tag: ""
+  env: {}
+
+
+
+healthcheck:
+  path: /healthz
+  probes:
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 60
+    successThreshold: 1
+    failureThreshold: 10
 
 
 
 labels: {}
+
 
 
 serviceAccount:
