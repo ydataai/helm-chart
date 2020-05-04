@@ -13,10 +13,7 @@ spec:
       {{- include "..selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+      {{- include "..annotataions" . | nindent 6 }}
       labels:
         {{- include "..selectorLabels" . | nindent 8 }}
     spec:
@@ -56,14 +53,6 @@ spec:
             {{ with .Values.healthcheck.probes }}
               {{- toYaml . | nindent 12 }}
             {{ end }}
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
