@@ -1,12 +1,16 @@
 replicaCount: 1
 
+
 service:
   type: NodePort
   port: 80
+  targetPort: 80
+
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+
 
 # If the values are not present, this will fail
 # it's intended to them to be provided by the override files
