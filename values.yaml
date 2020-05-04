@@ -10,10 +10,10 @@ fullnameOverride: ""
 
 # If the values are not present, this will fail
 # it's intended to them to be provided by the override files
-# image:
-#   repository: nginx
-#   pullPolicy: IfNotPresent
-#   tag: ""
+image:
+  # repository: nginx
+  pullPolicy: IfNotPresent
+  # tag: ""
 
 
 
