@@ -13,7 +13,7 @@ spec:
       {{- include "..selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- include "..annotataions" . | nindent 6 }}
+      {{- include "..annotations" . | nindent 6 }}
       labels:
         {{- include "..selectorLabels" . | nindent 8 }}
     spec:
