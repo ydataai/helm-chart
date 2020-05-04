@@ -3,7 +3,11 @@
 Expand the name of the chart.
 */}}
 {{- define "..name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- default .Release.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "..version" -}}
+{{ .Values.image.tag }}
 {{- end }}
 
 {{/*
@@ -12,23 +16,15 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "..fullname" -}}
-{{- if .Values.fullnameOverride }}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- $name := default .Chart.Name .Values.nameOverride }}
-{{- if contains $name .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
+{{ include "..name" . }}
 {{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "..chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- $version := include "..version" . -}}
+{{- printf "%s-%s" .Chart.Name $version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -38,7 +34,7 @@ Common labels
 helm.sh/chart: {{ include "..chart" . }}
 {{ include "..selectorLabels" . }}
 {{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+app.kubernetes.io/version: {{ include "..version" . | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
@@ -47,8 +43,9 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "..selectorLabels" -}}
+app: {{ include "..name" . }}
 app.kubernetes.io/name: {{ include "..name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ include "..name" . }}
 {{- end }}
 
 {{/*
@@ -64,6 +61,5 @@ Create the name of the service account to use
 
 {{- define "..annotations" -}}
 timestamp: {{ now }}
-{{ .Values.podAnnotations }}
+{{- toYaml .Values.podAnnotations }}
 {{- end }}
-
