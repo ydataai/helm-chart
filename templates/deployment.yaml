@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "..fullname" . }}
+  name: {{- include "..fullname" . }}
   labels:
     {{- include "..labels" . | nindent 4 }}
 spec:
@@ -43,16 +43,16 @@ spec:
             httpGet:
               path: {{ .Values.healthcheck.path }}
               port: {{ .Values.healthcheck.port | default "http" }}
-            {{ with .Values.healthcheck.probes }}
+            {{- with .Values.healthcheck.probes }}
               {{- toYaml . | nindent 12 }}
-            {{ end }}
+            {{- end }}
           readinessProbe:
             httpGet:
               path: {{ .Values.healthcheck.path }}
               port: {{ .Values.healthcheck.port | default "http" }}
-            {{ with .Values.healthcheck.probes }}
+            {{- with .Values.healthcheck.probes }}
               {{- toYaml . | nindent 12 }}
-            {{ end }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
