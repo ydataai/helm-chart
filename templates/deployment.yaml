@@ -37,7 +37,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.targetPort | default 80 }}
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
           livenessProbe:
             httpGet:
