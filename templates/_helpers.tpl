@@ -59,7 +59,31 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
+{{/*
+Create the name of the cluster role to use
+*/}}
+{{- define "..clusterRoleName" -}}
+{{- if .Values.clusterRole.create }}
+{{- default (include "..fullname" .) .Values.clusterRole.name }}
+{{- else }}
+{{- default "default" .Values.clusterRole.name }}
+{{- end }}
+{{- end }}
+
+{{/*
+Create the name of the role to use
+*/}}
+{{- define "..roleName" -}}
+{{- if .Values.role.create }}
+{{- default (include "..fullname" .) .Values.role.name }}
+{{- else }}
+{{- default "default" .Values.role.name }}
+{{- end }}
+{{- end }}
+
 {{- define "..annotations" -}}
 timestamp: {{ now }}
 {{- toYaml .Values.podAnnotations }}
 {{- end }}
+
+

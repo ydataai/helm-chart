@@ -1,16 +1,6 @@
 replicaCount: 1
 
 
-service:
-  type: NodePort
-  port: 80
-  targetPort: http
-
-
-imagePullSecrets:
-  - name: docker.registry
-
-
 nameOverride: ""
 fullnameOverride: ""
 
@@ -18,11 +8,18 @@ fullnameOverride: ""
 # If the values are not present, this will fail
 # it's intended to them to be provided by the override files
 image:
-  env: []
   # repository: nginx
-  pullPolicy: IfNotPresent
   # tag: ""
+  env: []
+  pullSecrets:
+    - name: docker.registry
+  pullPolicy: IfNotPresent
 
+
+service:
+  type: NodePort
+  port: 80
+  targetPort: http
 
 
 healthcheck:
@@ -35,33 +32,42 @@ healthcheck:
     failureThreshold: 10
 
 
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 80
+
 
 labels: {}
 
 
-
 serviceAccount:
-  # Specifies whether a service account should be created
   create: false
-  # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+
+clusterRole:
+  create: false
+  name: ""
+  rules:
+  - apiGroups: []
+    resources: []
+    verbs: []
+
+
+role:
+  create: false
+  name: ""
+  rules:
+  - apiGroups: []
+    resources: []
+    verbs: []
+
+
 podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
 
 
 ingress:
@@ -69,13 +75,9 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
+  hosts: []
   tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -89,15 +91,5 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-autoscaling:
-  enabled: true
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 70
-  targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
