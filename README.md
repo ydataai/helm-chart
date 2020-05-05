@@ -1,14 +1,25 @@
 # Helm Chart
 
-base chart that is meant to be used as submodule
+First things first, this is meant to be used as a template or submodule, this doesn't deploys anything into your cluster, neither is meant to.
 
-🤔 When we introduce helm repo, this will be probably converted in a template for helm 🙏
+## How to use it 👪
 
-## How to include it 👪
+### As a submodule
 
 Make sure you are in the root folder of your project and run
 
 `git submodule add --name helm-chart git@github.com:ydataai/helm-chart.git chart`
+
+### As a template or bootstrap
+
+You can be anywhere, i suggest you are in your local copy of the private charts
+
+```
+HC_NAME=<the name of your project>
+curl -L -o ${HC_NAME} https://github.com/ydataai/helm-chart/archive/master.zip
+unzip -a ${HC_NAME}.zip
+rm -f ${HC_NAME}.zip
+```
 
 ## How to customize it 🙅
 
