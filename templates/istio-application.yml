@@ -1,0 +1,36 @@
+{{- if .Values.application }}
+apiVersion: app.k8s.io/v1beta1
+kind: Application
+metadata:
+  name: {{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "..selectorLabels" . | nindent 6 }}
+  componentKinds:
+  - group: core
+    kind: ConfigMap
+  - group: apps
+    kind: Deployment
+  - group: core
+    kind: Service
+  {{- if and .Values.role.create .Values.serviceAccount.create }}
+  - group: rbac.authorization.k8s.io
+    kind: RoleBinding
+  - group: rbac.authorization.k8s.io
+    kind: Role
+  - group: core
+    kind: ServiceAccount
+  {{- end }}
+  {{- if .Values.virtualService.create }}
+  - group: networking.istio.io
+    kind: VirtualService
+  {{- end }}
+  {{- with .Values.application.descriptor }}
+  descriptor:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+  addOwnerRef: {{ .Values.application.addOwnerRef | default false }}
+{{- end }}

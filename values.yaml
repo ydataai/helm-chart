@@ -85,6 +85,9 @@ virtualService:
     #       port:
     #         number: 80
 
+# application:
+#   descriptor:
+#     # Whatever describes your application
 
 podAnnotations: {}
 
