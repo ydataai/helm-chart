@@ -23,11 +23,11 @@ spec:
     kind: Role
   - group: core
     kind: ServiceAccount
-  {{-end }}
+  {{- end }}
   {{- if .Values.virtualService.create }}
   - group: networking.istio.io
     kind: VirtualService
-  {{-end }}
+  {{- end }}
   {{- with .Values.application.descriptor }}
   descriptor:
   {{- toYaml . | nindent 4 }}
