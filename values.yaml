@@ -68,6 +68,24 @@ role:
     verbs: []
 
 
+virtualService:
+  create: false
+  gateways: []
+  hosts: []
+  http: [] # Contains match entries. For more information, please take a look at https://istio.io/docs/reference/config/networking/virtual-service/
+    # Basic example of a match entry
+    # - match:
+    #   - uri:
+    #       prefix: /
+    #   rewrite:
+    #     uri: /
+    #   route:
+    #   - destination:
+    #       host: servicename.namespace.svc.cluster.local or what is
+    #       port:
+    #         number: 80
+
+
 podAnnotations: {}
 
 
