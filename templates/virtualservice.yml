@@ -1,0 +1,21 @@
+{{- if .Values.virtualService.create }}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ include "..fullname" . }}
+  labels:
+    {{- include "..labels" . | nindent 4 }}
+spec:
+  {{- with .Values.virtualService.gateways }}
+  gateways:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.virtualService.hosts }}
+  hosts:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.virtualService.http }}
+  http:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

@@ -43,16 +43,16 @@ spec:
             httpGet:
               path: {{ .Values.healthcheck.path | default "healthz" }}
               port: {{ .Values.healthcheck.port | default "http" }}
-            {{- with .Values.healthcheck.probes }}
-              {{- toYaml . | nindent 12 }}
-            {{- end }}
+              {{- with .Values.healthcheck.probes }}
+                {{- toYaml . | nindent 12 }}
+              {{- end }}
           readinessProbe:
             httpGet:
               path: {{ .Values.healthcheck.path | default "healthz" }}
               port: {{ .Values.healthcheck.port | default "http" }}
-            {{- with .Values.healthcheck.probes }}
-              {{- toYaml . | nindent 12 }}
-            {{- end }}
+              {{- with .Values.healthcheck.probes }}
+                {{- toYaml . | nindent 12 }}
+              {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
