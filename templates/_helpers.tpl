@@ -4,11 +4,11 @@ Expand the name of the chart.
 This support both templating and submodule
 */}}
 {{- define "..name" -}}
-{{/* This probably is a submodule, so use release or nameOverride */}}
 {{- if eq "chart" .Chart.Name }}
+{{- /* This probably is a submodule, so use release or nameOverride */ -}}
 {{- default .Release.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{/* Use name declared in Chart or nameOverride from values */}}
+{{- /* Use name declared in Chart or nameOverride from values */ -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 {{- end }}
@@ -31,7 +31,7 @@ If release name contains chart name it will be used as a full name.
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- $name := include "..name" . }}
-{{- if contains $name .Release.Name }}
+{{- if eq $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
