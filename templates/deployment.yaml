@@ -25,7 +25,7 @@ spec:
       serviceAccountName: {{ include "..serviceAccountName" . }}
       containers:
         - name: {{ include "..name" . }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ include "..version" . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- with .Values.image.env }}
           env:
