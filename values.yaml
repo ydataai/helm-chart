@@ -1,8 +1,8 @@
 replicaCount: 1
 
 
-nameOverride: ""
-fullnameOverride: ""
+nameOverride: null
+fullnameOverride: null
 
 
 # If the values are not present, this will fail
