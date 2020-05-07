@@ -1,4 +1,8 @@
 apiVersion: v2
+# If you are using this as template, you MUST change this name
+# If you are using this as submodule, you CAN'T change this name
+# internally the helper will use the Release Name and you can always
+# override the name in your values override file using nameOverride property
 name: chart
 description: A Helm chart for Kubernetes
 version: 0.2.0
@@ -7,4 +11,6 @@ type: application
 
 # Version of the application deploying
 # Used as the tag of the image that we are trying to fetch
-appVersion: 0.0.1
+# You may only uncomment this when using this as a template/bootstrap,
+# because this is used as tag for the image
+# appVersion: 0.0.1
