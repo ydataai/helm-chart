@@ -1,13 +1,18 @@
 {{/* vim: set filetype=mustache: */}}
 {{/*
 Expand the name of the chart.
+This support both templating and submodule
 */}}
 {{- define "..name" -}}
-{{- default .Release.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- default (default .Release.Name .Chart.Name) .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{/*
+Expand version of the application.
+This support both templating and submodule
+*/}}
 {{- define "..version" -}}
-{{ .Values.image.tag }}
+{{- default .Values.image.tag .Chart.AppVersion }}
 {{- end }}
 
 {{/*
@@ -16,15 +21,26 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "..fullname" -}}
-{{ include "..name" . }}
+{{- if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := include "..name" . }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
 {{- end }}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "..chart" -}}
+{{- .Release.Version -}}
+{{- $name := include "..name" . -}}
 {{- $version := include "..version" . -}}
-{{- printf "%s-%s" .Chart.Name $version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- printf "%s-%s" (include "..name" .) .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -33,9 +49,8 @@ Common labels
 {{- define "..labels" -}}
 helm.sh/chart: {{ include "..chart" . }}
 {{ include "..selectorLabels" . }}
-{{- if .Chart.AppVersion }}
+app.kubernetes.io/component: {{ include "..name" . }}
 app.kubernetes.io/version: {{ include "..version" . | quote }}
-{{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
