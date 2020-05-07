@@ -102,9 +102,12 @@ Create the name of the role to use
 {{- end }}
 {{- end }}
 
+{{/*
+Expand annotations to support timestamp
+*/}}
 {{- define "..annotations" -}}
 timestamp: {{ now }}
-{{- toYaml .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations }}
 {{- end }}
 
 
