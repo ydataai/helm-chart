@@ -5,7 +5,7 @@ apiVersion: v2
 # override the name in your values override file using nameOverride property
 name: chart
 description: A Helm chart for Kubernetes
-version: 0.2.0
+version: 0.2.1
 
 type: application
 
