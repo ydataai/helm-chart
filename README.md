@@ -45,8 +45,16 @@ autoscaling:
 
 ## How to use it 🔨
 
+### As a submodule
+
 It's really simple, you just have to run helm in the root of your project and make sure you pass the required values, either using command line arguments or the file with overrides
 
 Example using the yaml file
 
 `helm upgrade <name of the project> chart --install --values chart.yaml`
+
+### As a 
+
+# About 👯‍♂️
+
+With ❤️ from [YData](https://ydata.ai) [Development team](mailto://developers@ydata.ai)
