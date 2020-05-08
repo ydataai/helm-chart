@@ -17,9 +17,9 @@ image:
 
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 80
-  targetPort: http
+  targetPort: 80
 
 
 healthcheck:
