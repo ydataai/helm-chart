@@ -11,10 +11,10 @@ image:
   # repository: nginx
   # tag: ""
   env: []
-  pullSecrets:
-    - name: docker.registry
   pullPolicy: IfNotPresent
 
+imagePullSecrets:
+  - name: docker.registry
 
 service:
   type: ClusterIP
